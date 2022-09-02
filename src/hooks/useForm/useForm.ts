@@ -3,7 +3,7 @@ import { ErrorsType, ValidationType } from "./types";
 
 type UseFormParams<T> = {
   intialValues: T;
-  validations?: Record<keyof T, ValidationType>;
+  validations?: Partial<Record<keyof T, ValidationType>>;
 };
 
 type UseFormReturnType<T> = {
@@ -36,7 +36,7 @@ export const useForm = <T extends Record<keyof T, string>>({
         const value = fields[key];
         const currentValidation = validations[key];
 
-        if (currentValidation.custom && !currentValidation.custom?.isValid(value)) {
+        if (currentValidation?.custom && !currentValidation.custom?.isValid(value)) {
           valid = false;
           newErrors[key] = currentValidation.custom.message;
         }
@@ -47,7 +47,7 @@ export const useForm = <T extends Record<keyof T, string>>({
           newErrors[key] = pattern.message;
         }
 
-        if (currentValidation.required?.value && !value) {
+        if (currentValidation?.required?.value && !value) {
           valid = false;
           newErrors[key] = currentValidation.required.message;
         }

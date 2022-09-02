@@ -20,7 +20,7 @@ export const Register: FunctionComponent = () => {
           message: "Campo requerido",
         },
         custom: {
-          isValid: (value) => value.includes("@"),
+          isValid: (value) => value.includes("@") && value.includes("."),
           message: "Mail invalido",
         },
       },
@@ -39,7 +39,18 @@ export const Register: FunctionComponent = () => {
     },
   });
 
+  const passwordsMatchError = (() => {
+    const { password, confirmPassword } = fields;
+    const hasContent = password && confirmPassword;
+    const match = password === confirmPassword;
+    if (hasContent && !match) {
+      return "Las contraseñas deben coincidir" as string;
+    }
+  })();
+
   const onSubmit = () => {
+    if (passwordsMatchError) return;
+    // eslint-disable-next-line no-console
     console.log(fields);
   };
 
@@ -72,7 +83,7 @@ export const Register: FunctionComponent = () => {
               type="password"
               placeholder="Confirmar contraseña"
               value={fields.confirmPassword}
-              error={errors?.confirmPassword}
+              error={errors?.confirmPassword || passwordsMatchError}
               name="confirmPassword"
               onChange={handleInputChange}
             />
