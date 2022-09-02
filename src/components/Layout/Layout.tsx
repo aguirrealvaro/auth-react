@@ -1,5 +1,6 @@
 import { FunctionComponent, ReactNode } from "react";
 import styled from "styled-components";
+import { Navbar } from "../Navbar";
 
 type LayoutProps = {
   children: ReactNode;
@@ -8,7 +9,7 @@ type LayoutProps = {
 export const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   return (
     <Container>
-      <header>Header</header>
+      <Navbar />
       <Main>{children}</Main>
     </Container>
   );
