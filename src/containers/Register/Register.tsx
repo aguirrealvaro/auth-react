@@ -1,5 +1,7 @@
 import { FunctionComponent } from "react";
+import { useMutation } from "react-query";
 import styled from "styled-components";
+import { registerUser } from "@/client";
 import { Button, Input } from "@/components";
 import { PageContainer, Wrapper, Title } from "@/components/App";
 import { useForm } from "@/hooks";
@@ -39,6 +41,8 @@ export const Register: FunctionComponent = () => {
     },
   });
 
+  const mutation = useMutation(registerUser);
+
   const passwordsMatchError = (() => {
     const { password, confirmPassword } = fields;
     const hasContent = password && confirmPassword;
@@ -50,8 +54,8 @@ export const Register: FunctionComponent = () => {
 
   const onSubmit = () => {
     if (passwordsMatchError) return;
-    // eslint-disable-next-line no-console
-    console.log(fields);
+    const { email, password, confirmPassword } = fields;
+    mutation.mutate({ email, password, confirmPassword });
   };
 
   return (
@@ -70,7 +74,6 @@ export const Register: FunctionComponent = () => {
           </InputWrapper>
           <InputWrapper>
             <Input
-              type="password"
               placeholder="Contraseña"
               value={fields.password}
               error={errors?.password}
@@ -80,7 +83,6 @@ export const Register: FunctionComponent = () => {
           </InputWrapper>
           <InputWrapper>
             <Input
-              type="password"
               placeholder="Confirmar contraseña"
               value={fields.confirmPassword}
               error={errors?.confirmPassword || passwordsMatchError}

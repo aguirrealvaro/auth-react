@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     server: {
-      port: 3000,
+      port: 8080,
     },
     resolve: {
       alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
