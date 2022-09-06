@@ -90,7 +90,7 @@ export const Register: FunctionComponent = () => {
             />
           </InputWrapper>
           <ButtonWrapper>
-            <Button block type="submit">
+            <Button block type="submit" isLoading={mutation.isLoading}>
               Registarse
             </Button>
           </ButtonWrapper>
