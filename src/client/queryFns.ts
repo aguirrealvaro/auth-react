@@ -39,7 +39,7 @@ export const loginUser = (body: LoginUserDto): Promise<LoginUserReturn> => {
   });
 };
 
-type GetCurrentUserReturn = {
+export type GetCurrentUserReturn = {
   id: number;
   email: string;
   password: string;

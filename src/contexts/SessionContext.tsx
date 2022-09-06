@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import { useQuery } from "react-query";
-import { getCurrentUser } from "@/client";
+import { getCurrentUser, GetCurrentUserReturn } from "@/client";
 
 type SessionProviderProps = {
   children: ReactNode;
@@ -15,6 +15,7 @@ type SessionProviderProps = {
 
 export type ToastContextType = {
   isAuth: boolean;
+  user: GetCurrentUserReturn | undefined;
 };
 
 const SessionContext = createContext<ToastContextType>({} as ToastContextType);
@@ -30,7 +31,11 @@ export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ child
     }
   }, [currentUserQuery.isSuccess]);
 
-  return <SessionContext.Provider value={{ isAuth }}>{children}</SessionContext.Provider>;
+  return (
+    <SessionContext.Provider value={{ isAuth, user: currentUserQuery.data }}>
+      {children}
+    </SessionContext.Provider>
+  );
 };
 
 export const useSession = () => useContext(SessionContext);
