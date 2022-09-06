@@ -1,8 +1,9 @@
 import { FunctionComponent } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import { Router } from "./components";
+import { Router, Layout } from "./components";
 import { SessionProvider } from "./contexts";
 import { theme, GlobalStyles } from "@/components/App";
 
@@ -20,13 +21,17 @@ const queryClient = new QueryClient({
 const App: FunctionComponent = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <SessionProvider>
-        <ThemeProvider theme={theme}>
-          <ReactQueryDevtools />
-          <GlobalStyles />
-          <Router />
-        </ThemeProvider>
-      </SessionProvider>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <SessionProvider>
+            <Layout>
+              <Router />
+            </Layout>
+            <ReactQueryDevtools />
+            <GlobalStyles />
+          </SessionProvider>
+        </BrowserRouter>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };

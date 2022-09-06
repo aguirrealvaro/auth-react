@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getCurrentUser, GetCurrentUserReturn } from "@/client";
 import { Spinner } from "@/components";
@@ -18,7 +19,8 @@ type SessionProviderProps = {
 
 export type ToastContextType = {
   isAuth: boolean;
-  setIsAuth: (isAuth: boolean) => void;
+  handleLogIn: (token: string) => void;
+  handleLogOut: () => void;
   user: GetCurrentUserReturn | undefined;
 };
 
@@ -39,8 +41,24 @@ export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ child
     }
   }, [currentUserQuery.isSuccess]);
 
+  const navigate = useNavigate();
+
+  const handleLogIn = (token: string) => {
+    localStorage.setItem(AUTH_TOKEN, token);
+    setIsAuth(true);
+    navigate("/");
+  };
+
+  const handleLogOut = () => {
+    localStorage.removeItem(AUTH_TOKEN);
+    setIsAuth(false);
+    navigate("/login");
+  };
+
   return (
-    <SessionContext.Provider value={{ isAuth, setIsAuth, user: currentUserQuery.data }}>
+    <SessionContext.Provider
+      value={{ isAuth, handleLogIn, handleLogOut, user: currentUserQuery.data }}
+    >
       {currentUserQuery.isLoading ? (
         <SpinnerWrapper>
           <Spinner />

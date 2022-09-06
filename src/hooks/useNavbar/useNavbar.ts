@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-import { AUTH_TOKEN } from "@/constants";
 import { useSession } from "@/contexts";
 
 type NavbarItem = {
@@ -14,15 +12,7 @@ type UseNavbarReturn = {
 };
 
 export const useNavbar = (): UseNavbarReturn => {
-  const navivate = useNavigate();
-
-  const { isAuth, setIsAuth } = useSession();
-
-  const handleLogOut = () => {
-    localStorage.removeItem(AUTH_TOKEN);
-    setIsAuth(false);
-    navivate("/login");
-  };
+  const { isAuth, handleLogOut } = useSession();
 
   const items: NavbarItem[] = [
     { label: "Home", url: "/" },

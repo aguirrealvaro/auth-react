@@ -1,11 +1,9 @@
 import { FunctionComponent } from "react";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { loginUser, LoginUserReturn } from "@/client";
 import { Button, Input } from "@/components";
 import { PageContainer, Title, Wrapper } from "@/components/App";
-import { AUTH_TOKEN } from "@/constants";
 import { useSession } from "@/contexts";
 import { useForm } from "@/hooks";
 
@@ -37,14 +35,10 @@ export const Login: FunctionComponent = () => {
     },
   });
 
-  const navigate = useNavigate();
-
-  const { setIsAuth } = useSession();
+  const { handleLogIn } = useSession();
 
   const onSuccess = ({ token }: LoginUserReturn) => {
-    localStorage.setItem(AUTH_TOKEN, token);
-    setIsAuth(true);
-    navigate("/");
+    handleLogIn(token);
   };
 
   const mutation = useMutation(loginUser, { onSuccess });
