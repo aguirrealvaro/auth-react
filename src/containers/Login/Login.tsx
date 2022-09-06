@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { loginUser, LoginUserReturn } from "@/client";
 import { Button, Input } from "@/components";
 import { PageContainer, Title, Wrapper } from "@/components/App";
+import { useSession } from "@/contexts";
 import { useForm } from "@/hooks";
 
 type Fields = {
@@ -37,8 +38,11 @@ export const Login: FunctionComponent = () => {
 
   const navigate = useNavigate();
 
+  const { setIsAuth } = useSession();
+
   const onSuccess = ({ token }: LoginUserReturn) => {
     localStorage.setItem(process.env.AUTH_TOKEN || "auth-token", token);
+    setIsAuth(true);
     navigate("/");
   };
 

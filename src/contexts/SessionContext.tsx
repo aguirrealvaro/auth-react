@@ -18,6 +18,7 @@ type SessionProviderProps = {
 export type ToastContextType = {
   isAuth: boolean;
   user: GetCurrentUserReturn | undefined;
+  setIsAuth: (isAuth: boolean) => void;
 };
 
 const SessionContext = createContext<ToastContextType>({} as ToastContextType);
@@ -38,7 +39,7 @@ export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ child
   }, [currentUserQuery.isSuccess]);
 
   return (
-    <SessionContext.Provider value={{ isAuth, user: currentUserQuery.data }}>
+    <SessionContext.Provider value={{ isAuth, user: currentUserQuery.data, setIsAuth }}>
       {currentUserQuery.isLoading ? (
         <SpinnerWrapper>
           <Spinner />
