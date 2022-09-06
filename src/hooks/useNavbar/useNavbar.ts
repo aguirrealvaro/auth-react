@@ -24,7 +24,7 @@ export const useNavbar = (): UseNavbarReturn => {
   };
 
   const items: NavbarItem[] = [
-    { label: "Home", url: "/", enable: isAuth },
+    { label: "Home", url: "/" },
     { label: "Register", url: "/register", enable: !isAuth },
     { label: "Login", url: "/login", enable: !isAuth },
     { label: "Log out", onClick: handleLogOut, enable: isAuth },
