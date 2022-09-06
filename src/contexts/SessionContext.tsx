@@ -23,7 +23,11 @@ const SessionContext = createContext<ToastContextType>({} as ToastContextType);
 export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ children }) => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
 
-  const currentUserQuery = useQuery("current", getCurrentUser);
+  const authTokenExists = !!localStorage.getItem(process.env.AUTH_TOKEN || "auth-token");
+
+  const currentUserQuery = useQuery(["users", "current"], getCurrentUser, {
+    enabled: authTokenExists,
+  });
 
   useEffect(() => {
     if (currentUserQuery.isSuccess) {
@@ -33,7 +37,7 @@ export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ child
 
   return (
     <SessionContext.Provider value={{ isAuth, user: currentUserQuery.data }}>
-      {children}
+      {!currentUserQuery.isLoading ? "loading" : children}
     </SessionContext.Provider>
   );
 };
