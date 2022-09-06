@@ -54,8 +54,7 @@ export const Register: FunctionComponent = () => {
 
   const onSubmit = () => {
     if (passwordsMatchError) return;
-    const { email, password, confirmPassword } = fields;
-    mutation.mutate({ email, password, confirmPassword });
+    mutation.mutate(fields);
   };
 
   return (

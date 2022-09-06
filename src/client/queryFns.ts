@@ -12,14 +12,9 @@ type RegisterUserReturn = {
   password: string;
 };
 
-export const registerUser = ({
-  email,
-  password,
-  confirmPassword,
-}: RegisterUserDto): Promise<RegisterUserReturn> => {
-  //console.log({ email, password, confirmPassword });
+export const registerUser = (body: RegisterUserDto): Promise<RegisterUserReturn> => {
   return fetcher("auth/register", {
     method: "POST",
-    body: JSON.stringify({ email, password, confirmPassword }),
+    body: JSON.stringify(body),
   });
 };
