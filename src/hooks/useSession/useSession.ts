@@ -1,3 +1,6 @@
+import { useQuery } from "react-query";
+import { getCurrentUser } from "@/client";
+
 export const useSession = () => {
-  console.log("use session");
+  const currentUserQuery = useQuery("current", getCurrentUser);
 };

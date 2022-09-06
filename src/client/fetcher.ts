@@ -1,17 +1,24 @@
 /* eslint-disable no-useless-catch */
-const defaultOptions: RequestInit = {
-  method: "GET",
-  headers: { "Content-Type": "application/json" },
-};
 
 export const fetcher = async <T>(
   url: URL | RequestInfo,
-  requestOptions: RequestInit,
+  options?: RequestInit,
   baseURL = process.env.API_HOST
 ): Promise<T> => {
-  const options = { ...defaultOptions, ...requestOptions };
+  const authToken = localStorage.getItem(process.env.AUTH_TOKEN || "auth-token");
+
+  const defaultOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      ...(authToken && { Authorization: authToken }),
+    },
+  };
+
+  const requestOptions = { ...defaultOptions, ...options };
+
   try {
-    const response = await fetch(`${baseURL}/${url}`, options);
+    const response = await fetch(`${baseURL}/${url}`, requestOptions);
     const data: T = await response.json();
 
     if (response.ok) {

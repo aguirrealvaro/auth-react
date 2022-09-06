@@ -38,7 +38,7 @@ export const Login: FunctionComponent = () => {
   const navigate = useNavigate();
 
   const onSuccess = ({ token }: LoginUserReturn) => {
-    localStorage.setItem(process.env.AUTH_TOKEN || "", token);
+    localStorage.setItem(process.env.AUTH_TOKEN || "auth-token", token);
     navigate("/");
   };
 

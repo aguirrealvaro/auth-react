@@ -38,3 +38,13 @@ export const loginUser = (body: LoginUserDto): Promise<LoginUserReturn> => {
     body: JSON.stringify(body),
   });
 };
+
+type GetCurrentUserReturn = {
+  id: number;
+  email: string;
+  password: string;
+};
+
+export const getCurrentUser = (): Promise<GetCurrentUserReturn> => {
+  return fetcher("users/curent");
+};
