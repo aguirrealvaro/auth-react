@@ -8,7 +8,8 @@ export const Router: FunctionComponent = () => {
     <BrowserRouter>
       <Layout>
         <Routes>
-          <Route path="/" element={<PrivateRoute component={Home} />} />
+          {/* <Route path="/" element={<PrivateRoute component={Home} />} /> */}
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
