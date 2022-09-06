@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { loginUser, LoginUserReturn } from "@/client";
 import { Button, Input } from "@/components";
@@ -34,8 +35,11 @@ export const Login: FunctionComponent = () => {
     },
   });
 
+  const navigate = useNavigate();
+
   const onSuccess = ({ token }: LoginUserReturn) => {
     localStorage.setItem(process.env.AUTH_TOKEN || "", token);
+    navigate("/");
   };
 
   const mutation = useMutation(loginUser, { onSuccess });
