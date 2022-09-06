@@ -7,7 +7,9 @@ import {
   useState,
 } from "react";
 import { useQuery } from "react-query";
+import styled from "styled-components";
 import { getCurrentUser, GetCurrentUserReturn } from "@/client";
+import { Spinner } from "@/components";
 
 type SessionProviderProps = {
   children: ReactNode;
@@ -37,9 +39,23 @@ export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ child
 
   return (
     <SessionContext.Provider value={{ isAuth, user: currentUserQuery.data }}>
-      {!currentUserQuery.isLoading ? "loading" : children}
+      {currentUserQuery.isLoading ? (
+        <SpinnerWrapper>
+          <Spinner />
+        </SpinnerWrapper>
+      ) : (
+        children
+      )}
     </SessionContext.Provider>
   );
 };
 
 export const useSession = () => useContext(SessionContext);
+
+const SpinnerWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
