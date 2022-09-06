@@ -46,5 +46,5 @@ type GetCurrentUserReturn = {
 };
 
 export const getCurrentUser = (): Promise<GetCurrentUserReturn> => {
-  return fetcher("users/curent");
+  return fetcher("users/current");
 };

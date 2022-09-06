@@ -11,7 +11,7 @@ export const fetcher = async <T>(
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      ...(authToken && { Authorization: authToken }),
+      ...(authToken && { Authorization: `Bearer ${authToken}` }),
     },
   };
 

@@ -1,11 +1,8 @@
 import { FunctionComponent } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import { Layout } from "./components";
-import { Home, Login, Register } from "./containers";
-import { useSession } from "./hooks";
+import { Router } from "./components";
 import { theme, GlobalStyles } from "@/components/App";
 
 const queryClient = new QueryClient({
@@ -20,21 +17,11 @@ const queryClient = new QueryClient({
 });
 
 const App: FunctionComponent = () => {
-  //useSession();
-
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools />
-        <Router>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-            </Routes>
-          </Layout>
-        </Router>
+        <Router />
       </QueryClientProvider>
       <GlobalStyles />
     </ThemeProvider>
