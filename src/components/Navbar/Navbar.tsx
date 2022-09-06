@@ -1,7 +1,18 @@
 import { FunctionComponent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSession } from "@/contexts";
 
 export const Navbar: FunctionComponent = () => {
+  const navivate = useNavigate();
+
+  const { setIsAuth } = useSession();
+
+  const handleLogOut = () => {
+    localStorage.removeItem(process.env.AUTH_TOKEN || "auth-token");
+    setIsAuth(false);
+    navivate("/login");
+  };
+
   return (
     <nav>
       <ul>
@@ -13,6 +24,9 @@ export const Navbar: FunctionComponent = () => {
         </li>
         <li>
           <Link to="/register">Register</Link>
+        </li>
+        <li>
+          <button onClick={handleLogOut}>Log out</button>
         </li>
       </ul>
     </nav>
