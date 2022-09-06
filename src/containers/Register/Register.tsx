@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { registerUser } from "@/client";
 import { Button, Input } from "@/components";
@@ -41,7 +42,13 @@ export const Register: FunctionComponent = () => {
     },
   });
 
-  const mutation = useMutation(registerUser);
+  const navigate = useNavigate();
+
+  const onSuccess = () => {
+    navigate("/login");
+  };
+
+  const mutation = useMutation(registerUser, { onSuccess });
 
   const passwordsMatchError = (() => {
     const { password, confirmPassword } = fields;

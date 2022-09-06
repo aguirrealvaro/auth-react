@@ -18,3 +18,23 @@ export const registerUser = (body: RegisterUserDto): Promise<RegisterUserReturn>
     body: JSON.stringify(body),
   });
 };
+
+type LoginUserDto = {
+  email: string;
+  password: string;
+};
+
+export type LoginUserReturn = {
+  success: true;
+  token: string;
+  user: {
+    id: number;
+  };
+};
+
+export const loginUser = (body: LoginUserDto): Promise<LoginUserReturn> => {
+  return fetcher("auth/login", {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+};
