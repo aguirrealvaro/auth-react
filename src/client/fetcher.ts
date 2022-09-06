@@ -7,7 +7,7 @@ const defaultOptions: RequestInit = {
 export const fetcher = async <T>(
   url: URL | RequestInfo,
   requestOptions: RequestInit,
-  baseURL = "http://localhost:3000/api"
+  baseURL = process.env.API_HOST
 ): Promise<T> => {
   const options = { ...defaultOptions, ...requestOptions };
   try {

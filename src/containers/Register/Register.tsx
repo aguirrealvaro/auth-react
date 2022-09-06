@@ -102,9 +102,6 @@ export const Register: FunctionComponent = () => {
 
 const InputWrapper = styled.div`
   margin-bottom: 1rem;
-  &:last-child {
-    margin-bottom: 0;
-  }
 `;
 
 const ButtonWrapper = styled.div`
