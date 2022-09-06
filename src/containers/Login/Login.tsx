@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { loginUser, LoginUserReturn } from "@/client";
 import { Button, Input } from "@/components";
 import { PageContainer, Title, Wrapper } from "@/components/App";
+import { AUTH_TOKEN } from "@/constants";
 import { useSession } from "@/contexts";
 import { useForm } from "@/hooks";
 
@@ -41,7 +42,7 @@ export const Login: FunctionComponent = () => {
   const { setIsAuth } = useSession();
 
   const onSuccess = ({ token }: LoginUserReturn) => {
-    localStorage.setItem(process.env.AUTH_TOKEN || "auth-token", token);
+    localStorage.setItem(AUTH_TOKEN, token);
     setIsAuth(true);
     navigate("/");
   };

@@ -1,11 +1,13 @@
 /* eslint-disable no-useless-catch */
 
+import { AUTH_TOKEN } from "@/constants";
+
 export const fetcher = async <T>(
   url: URL | RequestInfo,
   options?: RequestInit,
   baseURL = process.env.API_HOST
 ): Promise<T> => {
-  const authToken = localStorage.getItem(process.env.AUTH_TOKEN || "auth-token");
+  const authToken = localStorage.getItem(AUTH_TOKEN);
 
   const defaultOptions = {
     method: "GET",

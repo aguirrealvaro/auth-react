@@ -10,6 +10,7 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { getCurrentUser, GetCurrentUserReturn } from "@/client";
 import { Spinner } from "@/components";
+import { AUTH_TOKEN } from "@/constants";
 
 type SessionProviderProps = {
   children: ReactNode;
@@ -26,7 +27,7 @@ const SessionContext = createContext<ToastContextType>({} as ToastContextType);
 export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ children }) => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
 
-  const authTokenExists = !!localStorage.getItem(process.env.AUTH_TOKEN || "auth-token");
+  const authTokenExists = !!localStorage.getItem(AUTH_TOKEN);
 
   const currentUserQuery = useQuery(["users", "current"], getCurrentUser, {
     enabled: authTokenExists,

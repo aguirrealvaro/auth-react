@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { AUTH_TOKEN } from "@/constants";
 import { useSession } from "@/contexts";
 
 type NavbarItem = {
@@ -18,7 +19,7 @@ export const useNavbar = (): UseNavbarReturn => {
   const { isAuth, setIsAuth } = useSession();
 
   const handleLogOut = () => {
-    localStorage.removeItem(process.env.AUTH_TOKEN || "auth-token");
+    localStorage.removeItem(AUTH_TOKEN);
     setIsAuth(false);
     navivate("/login");
   };
