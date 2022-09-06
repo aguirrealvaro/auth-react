@@ -1,33 +1,26 @@
 import { FunctionComponent } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useSession } from "@/contexts";
+import { Link } from "react-router-dom";
+import { useNavbar } from "@/hooks";
 
 export const Navbar: FunctionComponent = () => {
-  const navivate = useNavigate();
-
-  const { setIsAuth } = useSession();
-
-  const handleLogOut = () => {
-    localStorage.removeItem(process.env.AUTH_TOKEN || "auth-token");
-    setIsAuth(false);
-    navivate("/login");
-  };
+  const { items } = useNavbar();
 
   return (
     <nav>
       <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
-        <li>
-          <Link to="/register">Register</Link>
-        </li>
-        <li>
-          <button onClick={handleLogOut}>Log out</button>
-        </li>
+        {items.map(({ label, url, onClick, enable }) => {
+          if (!enable) return;
+
+          return (
+            <li key={label}>
+              {url ? (
+                <Link to={url}>{label}</Link>
+              ) : (
+                <button onClick={onClick}>Log out</button>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
