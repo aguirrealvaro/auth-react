@@ -28,8 +28,8 @@ const App: FunctionComponent = () => {
               <Router />
             </Layout>
             <ReactQueryDevtools />
-            <GlobalStyles />
           </SessionProvider>
+          <GlobalStyles />
         </BrowserRouter>
       </ThemeProvider>
     </QueryClientProvider>

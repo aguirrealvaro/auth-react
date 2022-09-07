@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import { Navigate } from "react-router-dom";
+import { AUTH_TOKEN } from "@/constants";
 import { useSession } from "@/contexts";
 
 interface PrivateRouteProps {
@@ -11,7 +12,7 @@ export const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({
 }) => {
   const { isAuth } = useSession();
 
-  if (isAuth) return <Component />;
+  const authTokenExists = !!localStorage.getItem(AUTH_TOKEN);
 
-  return <Navigate to="/login" />;
+  return authTokenExists ? <Component /> : <Navigate to="/login" />;
 };
