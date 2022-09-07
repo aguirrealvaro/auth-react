@@ -31,7 +31,7 @@ export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ child
 
   const authTokenExists = !!localStorage.getItem(AUTH_TOKEN);
 
-  const currentUserQuery = useQuery(["users", "current"], getCurrentUser, {
+  const currentUserQuery = useQuery("current", getCurrentUser, {
     enabled: authTokenExists,
   });
 

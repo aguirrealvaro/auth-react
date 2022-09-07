@@ -13,7 +13,7 @@ type Fields = {
 };
 
 export const Login: FunctionComponent = () => {
-  //usePublicRoute();
+  usePublicRoute();
 
   const { fields, errors, handleInputChange, handleSubmit } = useForm<Fields>({
     intialValues: { email: "", password: "" },

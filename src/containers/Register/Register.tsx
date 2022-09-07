@@ -14,7 +14,7 @@ type Fields = {
 };
 
 export const Register: FunctionComponent = () => {
-  //usePublicRoute();
+  usePublicRoute();
 
   const { fields, errors, handleInputChange, handleSubmit } = useForm<Fields>({
     intialValues: { email: "", password: "", confirmPassword: "" },
