@@ -1,8 +1,6 @@
 import { FunctionComponent } from "react";
-import { useQuery } from "react-query";
 import { Navigate } from "react-router-dom";
-import { getCurrentUser } from "@/client";
-import { AUTH_TOKEN } from "@/constants";
+import { useSession } from "@/contexts";
 
 type PrivateRouteProps = {
   component: FunctionComponent;
@@ -11,13 +9,9 @@ type PrivateRouteProps = {
 export const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({
   component: Component,
 }) => {
-  const authTokenExists = !!localStorage.getItem(AUTH_TOKEN);
-
-  const { isLoading, isSuccess } = useQuery("router", getCurrentUser, {
-    enabled: authTokenExists,
-  });
+  const { isAuth, isLoading } = useSession();
 
   if (isLoading) return null;
 
-  return isSuccess ? <Component /> : <Navigate to="/login" />;
+  return isAuth ? <Component /> : <Navigate to="/login" />;
 };

@@ -1,11 +1,4 @@
-import {
-  createContext,
-  FunctionComponent,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, FunctionComponent, ReactNode, useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -21,6 +14,7 @@ export type SessionContextValue = {
   isAuth: boolean;
   handleLogIn: (token: string) => void;
   handleLogOut: () => void;
+  isLoading: boolean;
   user: GetCurrentUserReturn | undefined;
 };
 
@@ -33,13 +27,8 @@ export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ child
 
   const currentUserQuery = useQuery("current", getCurrentUser, {
     enabled: authTokenExists,
+    onSuccess: () => setIsAuth(true),
   });
-
-  useEffect(() => {
-    if (currentUserQuery.isSuccess) {
-      setIsAuth(true);
-    }
-  }, [currentUserQuery.isSuccess]);
 
   const navigate = useNavigate();
 
@@ -57,7 +46,13 @@ export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ child
 
   return (
     <SessionContext.Provider
-      value={{ isAuth, handleLogIn, handleLogOut, user: currentUserQuery.data }}
+      value={{
+        isAuth,
+        handleLogIn,
+        handleLogOut,
+        isLoading: currentUserQuery.isLoading,
+        user: currentUserQuery.data,
+      }}
     >
       {currentUserQuery.isLoading ? (
         <SpinnerWrapper>
