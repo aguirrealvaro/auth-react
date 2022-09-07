@@ -5,8 +5,7 @@ import { loginUser, LoginUserReturn } from "@/client";
 import { Button, Input } from "@/components";
 import { PageContainer, Wrapper } from "@/components/App";
 import { useSession } from "@/contexts";
-import { useForm } from "@/hooks";
-import { usePublicRoute } from "@/hooks/usePublicRoute/usePublicRoute";
+import { useForm, usePublicRoute } from "@/hooks";
 
 type Fields = {
   email: string;

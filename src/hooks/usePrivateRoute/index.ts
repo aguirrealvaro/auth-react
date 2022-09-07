@@ -1,0 +1,1 @@
+export { usePrivateRoute } from "./usePrivateRoute";

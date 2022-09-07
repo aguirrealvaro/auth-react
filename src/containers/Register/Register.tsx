@@ -5,8 +5,7 @@ import styled from "styled-components";
 import { registerUser } from "@/client";
 import { Button, Input } from "@/components";
 import { PageContainer, Wrapper } from "@/components/App";
-import { useForm } from "@/hooks";
-import { usePublicRoute } from "@/hooks/usePublicRoute";
+import { useForm, usePublicRoute } from "@/hooks";
 
 type Fields = {
   email: string;
