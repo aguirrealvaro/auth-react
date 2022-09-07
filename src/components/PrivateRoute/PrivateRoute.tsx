@@ -3,9 +3,9 @@ import { Navigate } from "react-router-dom";
 import { AUTH_TOKEN } from "@/constants";
 import { useSession } from "@/contexts";
 
-interface PrivateRouteProps {
+type PrivateRouteProps = {
   component: FunctionComponent;
-}
+};
 
 export const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({
   component: Component,
