@@ -6,6 +6,7 @@ import { Button, Input } from "@/components";
 import { PageContainer, Title, Wrapper } from "@/components/App";
 import { useSession } from "@/contexts";
 import { useForm } from "@/hooks";
+import { usePublicRoute } from "@/hooks/usePublicRoute/usePublicRoute";
 
 type Fields = {
   email: string;
@@ -13,6 +14,8 @@ type Fields = {
 };
 
 export const Login: FunctionComponent = () => {
+  usePublicRoute();
+
   const { fields, errors, handleInputChange, handleSubmit } = useForm<Fields>({
     intialValues: { email: "", password: "" },
     validations: {
