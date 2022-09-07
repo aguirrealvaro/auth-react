@@ -1,11 +1,8 @@
 import { FunctionComponent } from "react";
 import styled from "styled-components";
 import { PageContainer, Wrapper } from "@/components/App";
-import { usePrivateRoute } from "@/hooks";
 
 export const Home: FunctionComponent = () => {
-  usePrivateRoute();
-
   return (
     <PageContainer>
       <Wrapper>
