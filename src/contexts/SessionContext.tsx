@@ -17,14 +17,14 @@ type SessionProviderProps = {
   children: ReactNode;
 };
 
-export type ToastContextType = {
+export type SessionContextValue = {
   isAuth: boolean;
   handleLogIn: (token: string) => void;
   handleLogOut: () => void;
   user: GetCurrentUserReturn | undefined;
 };
 
-const SessionContext = createContext<ToastContextType>({} as ToastContextType);
+const SessionContext = createContext<SessionContextValue>({} as SessionContextValue);
 
 export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ children }) => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
