@@ -3,7 +3,7 @@ import { useMutation } from "react-query";
 import styled from "styled-components";
 import { loginUser, LoginUserReturn } from "@/client";
 import { Button, Input } from "@/components";
-import { PageContainer, Title, Wrapper } from "@/components/App";
+import { PageContainer, Wrapper } from "@/components/App";
 import { useSession } from "@/contexts";
 import { useForm } from "@/hooks";
 import { usePublicRoute } from "@/hooks/usePublicRoute/usePublicRoute";
@@ -73,6 +73,7 @@ export const Login: FunctionComponent = () => {
               onChange={handleInputChange}
             />
           </InputWrapper>
+          {!!mutation.error && <Error>{JSON.stringify(mutation.error)}</Error>}
           <ButtonWrapper>
             <Button block type="submit" isLoading={false}>
               Iniciar sesion
@@ -84,10 +85,20 @@ export const Login: FunctionComponent = () => {
   );
 };
 
+const Title = styled.h2`
+  margin-bottom: 2rem;
+`;
+
 const InputWrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
+`;
+
+const Error = styled.div`
+  font-size: 14px;
+  margin-bottom: 1rem;
+  color: ${({ theme }) => theme.colors.red};
 `;

@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
-import { PageContainer, Title, Wrapper } from "@/components/App";
+import styled from "styled-components";
+import { PageContainer, Wrapper } from "@/components/App";
 
 export const Home: FunctionComponent = () => {
   return (
@@ -10,3 +11,7 @@ export const Home: FunctionComponent = () => {
     </PageContainer>
   );
 };
+
+const Title = styled.h2`
+  margin-bottom: 2rem;
+`;

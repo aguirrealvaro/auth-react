@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { registerUser } from "@/client";
 import { Button, Input } from "@/components";
-import { PageContainer, Wrapper, Title } from "@/components/App";
+import { PageContainer, Wrapper } from "@/components/App";
 import { useForm } from "@/hooks";
 
 type Fields = {
@@ -96,6 +96,7 @@ export const Register: FunctionComponent = () => {
               onChange={handleInputChange}
             />
           </InputWrapper>
+          {!!mutation.error && <Error>{JSON.stringify(mutation.error)}</Error>}
           <ButtonWrapper>
             <Button block type="submit" isLoading={mutation.isLoading}>
               Registarse
@@ -107,10 +108,20 @@ export const Register: FunctionComponent = () => {
   );
 };
 
+const Title = styled.h2`
+  margin-bottom: 2rem;
+`;
+
 const InputWrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
+`;
+
+const Error = styled.div`
+  font-size: 14px;
+  margin-bottom: 1rem;
+  color: ${({ theme }) => theme.colors.red};
 `;
