@@ -51,20 +51,6 @@ export const Register: FunctionComponent = () => {
 
   const mutation = useMutation(registerUser, { onSuccess });
 
-  const passwordsMatchError = (() => {
-    const { password, confirmPassword } = fields;
-    const hasContent = password && confirmPassword;
-    const match = password === confirmPassword;
-    if (hasContent && !match) {
-      return "Las contraseñas deben coincidir" as string;
-    }
-  })();
-
-  const onSubmit = () => {
-    if (passwordsMatchError) return;
-    mutation.mutate(fields);
-  };
-
   const emailAvailabilityQuery = useQuery(
     ["email_availability", fields.email],
     getEmailAvailability,
@@ -81,6 +67,26 @@ export const Register: FunctionComponent = () => {
     }
   };
 
+  const passwordsMatchError = (() => {
+    const { password, confirmPassword } = fields;
+    const hasContent = password && confirmPassword;
+    const match = password === confirmPassword;
+    if (hasContent && !match) {
+      return "Las contraseñas deben coincidir" as string;
+    }
+  })();
+
+  const unavailableEmailError = (() => {
+    if (emailAvailabilityQuery.isSuccess && !emailAvailabilityQuery.data?.available) {
+      return "Mail no disponible";
+    }
+  })();
+
+  const onSubmit = () => {
+    if (passwordsMatchError || unavailableEmailError) return;
+    mutation.mutate(fields);
+  };
+
   return (
     <PageContainer>
       <Wrapper>
@@ -90,10 +96,11 @@ export const Register: FunctionComponent = () => {
             <Input
               placeholder="Email"
               value={fields.email}
-              error={errors?.email}
+              error={errors?.email || unavailableEmailError}
               name="email"
               onChange={handleInputChange}
               onBlur={handleEmailBlur}
+              isLoading={emailAvailabilityQuery.isLoading}
             />
           </InputWrapper>
           <InputWrapper>
