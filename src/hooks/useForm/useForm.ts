@@ -48,17 +48,9 @@ export const useForm = <T extends Record<keyof T, string>>({
 
     setFields({ ...fields, [name]: value });
 
-    if (!valid) {
-      setErrors((errors) => ({
-        ...errors,
-        [name]: newErrors[typedName],
-      }));
-      return;
-    }
-
     setErrors((errors) => ({
       ...errors,
-      [name]: undefined,
+      [name]: valid ? undefined : newErrors[typedName],
     }));
   };
 
@@ -86,18 +78,9 @@ export const useForm = <T extends Record<keyof T, string>>({
 
     const valid = Object.keys(newErrors).length === 0;
 
-    if (!valid) {
-      setErrors((errors) => ({
-        ...errors,
-        [name]: newErrors[name],
-      }));
-      return;
-    }
-
-    // if we handle the input change, this would not be necessary
     setErrors((errors) => ({
       ...errors,
-      [name]: undefined,
+      [name]: valid ? undefined : newErrors[name],
     }));
   };
 
