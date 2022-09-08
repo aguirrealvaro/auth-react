@@ -51,6 +51,14 @@ export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ child
     navigate("/login");
   };
 
+  if (currentUserQuery.isLoading) {
+    return (
+      <SpinnerWrapper>
+        <Spinner />
+      </SpinnerWrapper>
+    );
+  }
+
   return (
     <SessionContext.Provider
       value={{
@@ -61,13 +69,7 @@ export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ child
         user: currentUserQuery.data,
       }}
     >
-      {currentUserQuery.isLoading ? (
-        <SpinnerWrapper>
-          <Spinner />
-        </SpinnerWrapper>
-      ) : (
-        children
-      )}
+      {children}
     </SessionContext.Provider>
   );
 };
