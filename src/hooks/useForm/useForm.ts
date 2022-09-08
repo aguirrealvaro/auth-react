@@ -48,9 +48,23 @@ export const useForm = <T extends Record<keyof T, string>>({
 
     setFields({ ...fields, [name]: value });
 
+    if (!valid) {
+      // in order to to validate the input after blur, only setErrors if there is alredy an error
+      const errorExists = errors ? !!errors[typedName] : false;
+
+      if (errorExists) {
+        setErrors((errors) => ({
+          ...errors,
+          [name]: newErrors[typedName],
+        }));
+
+        return;
+      }
+    }
+
     setErrors((errors) => ({
       ...errors,
-      [name]: valid ? undefined : newErrors[typedName],
+      [name]: undefined,
     }));
   };
 
