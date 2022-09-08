@@ -23,38 +23,38 @@ export const useForm = <T extends Record<keyof T, string>>({
   const [errors, setErrors] = useState<ErrorsType<T> | undefined>(undefined);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    const typedName = name as keyof T;
-    const currentValidation = validations && validations[typedName];
+    const name = e.target.name as keyof T;
+    const value = e.target.value;
+    const currentValidation = validations && validations[name];
 
     const newErrors: ErrorsType<T> = {};
 
     if (currentValidation?.custom && !currentValidation.custom?.isValid(value)) {
-      newErrors[typedName] = currentValidation.custom.message;
+      newErrors[name] = currentValidation.custom.message;
     }
 
     if (
       currentValidation?.pattern?.value &&
       !RegExp(currentValidation?.pattern.value).test(value)
     ) {
-      newErrors[typedName] = currentValidation?.pattern.message;
+      newErrors[name] = currentValidation?.pattern.message;
     }
 
     if (currentValidation?.required?.value && !value) {
-      newErrors[typedName] = currentValidation.required.message;
+      newErrors[name] = currentValidation.required.message;
     }
 
     const valid = Object.keys(newErrors).length === 0;
 
     setFields({ ...fields, [name]: value });
 
-    const errorExists = errors ? !!errors[typedName] : false;
+    const errorExists = errors ? !!errors[name] : false;
 
     // in order to validate the input after blur, only setErrors if there is alredy an error
     if (errorExists) {
       setErrors((errors) => ({
         ...errors,
-        [name]: valid ? undefined : newErrors[typedName],
+        [name]: valid ? undefined : newErrors[name],
       }));
     }
   };
