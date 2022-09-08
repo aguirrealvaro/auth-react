@@ -6,7 +6,7 @@ export type ValidationType = {
     message: string;
   };
   pattern?: {
-    value: string;
+    value: RegExp;
     message: string;
   };
   custom?: {

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { loginUser, LoginUserReturn } from "@/client";
 import { Button, Input } from "@/components";
 import { PageContainer, Wrapper } from "@/components/App";
+import { EMAIL_REG_EXP } from "@/constants";
 import { useSession } from "@/contexts";
 import { useForm } from "@/hooks";
 
@@ -21,8 +22,8 @@ export const Login: FunctionComponent = () => {
           value: true,
           message: "Campo requerido",
         },
-        custom: {
-          isValid: (value) => value.includes("@") && value.includes("."),
+        pattern: {
+          value: EMAIL_REG_EXP,
           message: "Mail invalido",
         },
       },
@@ -64,7 +65,7 @@ export const Login: FunctionComponent = () => {
           </InputWrapper>
           <InputWrapper>
             <Input
-              type="password"
+              //type="password"
               placeholder="Contraseña"
               value={fields.password}
               error={errors?.password}

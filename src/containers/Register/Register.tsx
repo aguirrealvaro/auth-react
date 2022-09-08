@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { registerUser } from "@/client";
 import { Button, Input } from "@/components";
 import { PageContainer, Wrapper } from "@/components/App";
+import { EMAIL_REG_EXP } from "@/constants";
 import { useForm } from "@/hooks";
 
 type Fields = {
@@ -22,8 +23,8 @@ export const Register: FunctionComponent = () => {
           value: true,
           message: "Campo requerido",
         },
-        custom: {
-          isValid: (value) => value.includes("@") && value.includes("."),
+        pattern: {
+          value: EMAIL_REG_EXP,
           message: "Mail invalido",
         },
       },
@@ -81,7 +82,7 @@ export const Register: FunctionComponent = () => {
           </InputWrapper>
           <InputWrapper>
             <Input
-              type="password"
+              //type="password"
               placeholder="Contraseña"
               value={fields.password}
               error={errors?.password}
@@ -92,7 +93,7 @@ export const Register: FunctionComponent = () => {
           </InputWrapper>
           <InputWrapper>
             <Input
-              type="password"
+              //type="password"
               placeholder="Confirmar contraseña"
               value={fields.confirmPassword}
               error={errors?.confirmPassword || passwordsMatchError}
