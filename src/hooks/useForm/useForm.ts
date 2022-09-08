@@ -29,7 +29,6 @@ export const useForm = <T extends Record<keyof T, string>>({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>, onSubmit: () => void) => {
     e.preventDefault();
 
-    let valid = true;
     const newErrors: ErrorsType<T> = {};
     if (validations) {
       for (const key in validations) {
@@ -37,22 +36,23 @@ export const useForm = <T extends Record<keyof T, string>>({
         const currentValidation = validations[key];
 
         if (currentValidation?.custom && !currentValidation.custom?.isValid(value)) {
-          valid = false;
           newErrors[key] = currentValidation.custom.message;
         }
 
-        const pattern = currentValidation?.pattern;
-        if (pattern?.value && !RegExp(pattern.value).test(value)) {
-          valid = false;
-          newErrors[key] = pattern.message;
+        if (
+          currentValidation?.pattern?.value &&
+          !RegExp(currentValidation?.pattern.value).test(value)
+        ) {
+          newErrors[key] = currentValidation?.pattern.message;
         }
 
         if (currentValidation?.required?.value && !value) {
-          valid = false;
           newErrors[key] = currentValidation.required.message;
         }
       }
     }
+
+    const valid = Object.keys(newErrors).length === 0;
 
     if (!valid) {
       setErrors(newErrors);
