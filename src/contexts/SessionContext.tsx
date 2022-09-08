@@ -1,6 +1,6 @@
 import { createContext, FunctionComponent, ReactNode, useContext, useState } from "react";
 import { useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getCurrentUser, GetCurrentUserReturn } from "@/client";
 import { Spinner } from "@/components";
@@ -18,6 +18,10 @@ export type SessionContextValue = {
   user: GetCurrentUserReturn | undefined;
 };
 
+type LocationState = {
+  from: string;
+};
+
 const SessionContext = createContext<SessionContextValue>({} as SessionContextValue);
 
 export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ children }) => {
@@ -32,10 +36,13 @@ export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ child
 
   const navigate = useNavigate();
 
+  const location = useLocation();
+
   const handleLogIn = (token: string) => {
     localStorage.setItem(AUTH_TOKEN, token);
     setIsAuth(true);
-    navigate("/");
+    const previousPath = (location.state as LocationState | undefined)?.from;
+    navigate(previousPath || "/");
   };
 
   const handleLogOut = () => {
