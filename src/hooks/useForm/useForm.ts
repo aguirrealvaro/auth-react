@@ -48,24 +48,15 @@ export const useForm = <T extends Record<keyof T, string>>({
 
     setFields({ ...fields, [name]: value });
 
-    if (!valid) {
-      // in order to to validate the input after blur, only setErrors if there is alredy an error
-      const errorExists = errors ? !!errors[typedName] : false;
+    const errorExists = errors ? !!errors[typedName] : false;
 
-      if (errorExists) {
-        setErrors((errors) => ({
-          ...errors,
-          [name]: newErrors[typedName],
-        }));
-
-        return;
-      }
+    // in order to validate the input after blur, only setErrors if there is alredy an error
+    if (errorExists) {
+      setErrors((errors) => ({
+        ...errors,
+        [name]: valid ? undefined : newErrors[typedName],
+      }));
     }
-
-    setErrors((errors) => ({
-      ...errors,
-      [name]: undefined,
-    }));
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
