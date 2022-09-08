@@ -1,8 +1,8 @@
 import { FunctionComponent } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { registerUser } from "@/client";
+import { getEmailAvailability, registerUser } from "@/client";
 import { Button, Input } from "@/components";
 import { PageContainer, Wrapper } from "@/components/App";
 import { EMAIL_REG_EXP } from "@/constants";
@@ -65,6 +65,22 @@ export const Register: FunctionComponent = () => {
     mutation.mutate(fields);
   };
 
+  const emailAvailabilityQuery = useQuery(
+    ["email_availability", fields.email],
+    getEmailAvailability,
+    { enabled: false }
+  );
+
+  const handleEmailBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+    handleBlur(e);
+
+    const isValidEmail = RegExp(EMAIL_REG_EXP).test(e.currentTarget.value);
+
+    if (isValidEmail) {
+      emailAvailabilityQuery.refetch();
+    }
+  };
+
   return (
     <PageContainer>
       <Wrapper>
@@ -77,7 +93,7 @@ export const Register: FunctionComponent = () => {
               error={errors?.email}
               name="email"
               onChange={handleInputChange}
-              onBlur={handleBlur}
+              onBlur={handleEmailBlur}
             />
           </InputWrapper>
           <InputWrapper>

@@ -1,3 +1,4 @@
+import { QueryFunctionContext } from "react-query";
 import { fetcher } from "./fetcher";
 
 type RegisterUserDto = {
@@ -47,4 +48,17 @@ export type GetCurrentUserReturn = {
 
 export const getCurrentUser = (): Promise<GetCurrentUserReturn> => {
   return fetcher("users/current");
+};
+
+type EmailAvailabilityReturn = {
+  available: boolean;
+};
+
+type GetEmailAvailabilityQueryKeyType = [string, string | undefined];
+
+export const getEmailAvailability = ({
+  queryKey,
+}: QueryFunctionContext<GetEmailAvailabilityQueryKeyType>): Promise<EmailAvailabilityReturn> => {
+  const [, email] = queryKey;
+  return fetcher(`users/email_availability/${email}`);
 };
