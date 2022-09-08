@@ -71,7 +71,6 @@ export const Register: FunctionComponent = () => {
         <form onSubmit={(e) => handleSubmit(e, onSubmit)}>
           <InputWrapper>
             <Input
-              type="text"
               placeholder="Email"
               value={fields.email}
               error={errors?.email}
