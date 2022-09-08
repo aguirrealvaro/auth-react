@@ -69,8 +69,8 @@ export const useForm = <T extends Record<keyof T, string>>({
     }
   };
 
-  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    const name = event.currentTarget.name as keyof T;
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const name = e.currentTarget.name as keyof T;
     const value = fields[name];
     const currentValidation = validations && validations[name];
 
