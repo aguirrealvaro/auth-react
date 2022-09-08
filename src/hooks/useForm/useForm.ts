@@ -22,11 +22,11 @@ export const useForm = <T extends Record<keyof T, string>>({
   const [fields, setFields] = useState<T>(intialValues);
   const [errors, setErrors] = useState<ErrorsType<T> | undefined>(undefined);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.name as keyof T;
-    const value = e.target.value;
-    const currentValidation = validations && validations[name];
-
+  const parseValidations = (
+    name: keyof T,
+    value: string,
+    currentValidation: Partial<Record<keyof T, ValidationType>>[keyof T] | undefined
+  ) => {
     const newErrors: ErrorsType<T> = {};
 
     if (currentValidation?.custom && !currentValidation.custom?.isValid(value)) {
@@ -43,6 +43,16 @@ export const useForm = <T extends Record<keyof T, string>>({
     if (currentValidation?.required?.value && !value) {
       newErrors[name] = currentValidation.required.message;
     }
+
+    return newErrors;
+  };
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name as keyof T;
+    const value = e.target.value;
+    const currentValidation = validations && validations[name];
+
+    const newErrors = parseValidations(name, value, currentValidation);
 
     const valid = Object.keys(newErrors).length === 0;
 
@@ -64,22 +74,7 @@ export const useForm = <T extends Record<keyof T, string>>({
     const value = fields[name];
     const currentValidation = validations && validations[name];
 
-    const newErrors: ErrorsType<T> = {};
-
-    if (currentValidation?.custom && !currentValidation.custom?.isValid(value)) {
-      newErrors[name] = currentValidation.custom.message;
-    }
-
-    if (
-      currentValidation?.pattern?.value &&
-      !RegExp(currentValidation?.pattern.value).test(value)
-    ) {
-      newErrors[name] = currentValidation?.pattern.message;
-    }
-
-    if (currentValidation?.required?.value && !value) {
-      newErrors[name] = currentValidation.required.message;
-    }
+    const newErrors = parseValidations(name, value, currentValidation);
 
     const valid = Object.keys(newErrors).length === 0;
 
