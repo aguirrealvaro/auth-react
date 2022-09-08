@@ -13,7 +13,7 @@ type Fields = {
 };
 
 export const Login: FunctionComponent = () => {
-  const { fields, errors, handleInputChange, handleSubmit } = useForm<Fields>({
+  const { fields, errors, handleInputChange, handleBlur, handleSubmit } = useForm<Fields>({
     intialValues: { email: "", password: "" },
     validations: {
       email: {
@@ -59,6 +59,7 @@ export const Login: FunctionComponent = () => {
               error={errors?.email}
               name="email"
               onChange={handleInputChange}
+              onBlur={handleBlur}
             />
           </InputWrapper>
           <InputWrapper>
@@ -68,6 +69,7 @@ export const Login: FunctionComponent = () => {
               error={errors?.password}
               name="password"
               onChange={handleInputChange}
+              onBlur={handleBlur}
             />
           </InputWrapper>
           {!!mutation.error && <Error>{JSON.stringify(mutation.error)}</Error>}
