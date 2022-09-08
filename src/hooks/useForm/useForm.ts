@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, FocusEvent, FormEvent } from "react";
 import { ErrorsType, ValidationType } from "./types";
 
 type UseFormParams<T> = {
@@ -10,7 +10,8 @@ type UseFormReturnType<T> = {
   fields: T;
   errors: ErrorsType<T> | undefined;
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>, onSubmit: () => void) => void;
+  handleBlur: (e: FocusEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: FormEvent<HTMLFormElement>, onSubmit: () => void) => void;
   resetFields: () => void;
 };
 
@@ -23,7 +24,81 @@ export const useForm = <T extends Record<keyof T, string>>({
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    const typedName = name as keyof T;
+    const currentValidation = validations && validations[typedName];
+
+    const newErrors: ErrorsType<T> = {};
+
+    if (currentValidation?.custom && !currentValidation.custom?.isValid(value)) {
+      newErrors[typedName] = currentValidation.custom.message;
+    }
+
+    if (
+      currentValidation?.pattern?.value &&
+      !RegExp(currentValidation?.pattern.value).test(value)
+    ) {
+      newErrors[typedName] = currentValidation?.pattern.message;
+    }
+
+    if (currentValidation?.required?.value && !value) {
+      newErrors[typedName] = currentValidation.required.message;
+    }
+
+    const valid = Object.keys(newErrors).length === 0;
+
     setFields({ ...fields, [name]: value });
+
+    if (!valid) {
+      setErrors((errors) => ({
+        ...errors,
+        [name]: newErrors[typedName],
+      }));
+      return;
+    }
+
+    setErrors((errors) => ({
+      ...errors,
+      [name]: undefined,
+    }));
+  };
+
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    const name = event.currentTarget.name as keyof T;
+    const value = fields[name];
+    const currentValidation = validations && validations[name];
+
+    const newErrors: ErrorsType<T> = {};
+
+    if (currentValidation?.custom && !currentValidation.custom?.isValid(value)) {
+      newErrors[name] = currentValidation.custom.message;
+    }
+
+    if (
+      currentValidation?.pattern?.value &&
+      !RegExp(currentValidation?.pattern.value).test(value)
+    ) {
+      newErrors[name] = currentValidation?.pattern.message;
+    }
+
+    if (currentValidation?.required?.value && !value) {
+      newErrors[name] = currentValidation.required.message;
+    }
+
+    const valid = Object.keys(newErrors).length === 0;
+
+    if (!valid) {
+      setErrors((errors) => ({
+        ...errors,
+        [name]: newErrors[name],
+      }));
+      return;
+    }
+
+    // if we handle the input change, this would not be necessary
+    setErrors((errors) => ({
+      ...errors,
+      [name]: undefined,
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>, onSubmit: () => void) => {
@@ -65,5 +140,12 @@ export const useForm = <T extends Record<keyof T, string>>({
 
   const resetFields = () => setFields(intialValues);
 
-  return { fields, errors, handleInputChange, handleSubmit, resetFields };
+  return {
+    fields,
+    errors,
+    handleInputChange,
+    handleBlur,
+    handleSubmit,
+    resetFields,
+  };
 };

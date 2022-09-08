@@ -14,7 +14,7 @@ type Fields = {
 };
 
 export const Register: FunctionComponent = () => {
-  const { fields, errors, handleInputChange, handleSubmit } = useForm<Fields>({
+  const { fields, errors, handleInputChange, handleBlur, handleSubmit } = useForm<Fields>({
     intialValues: { email: "", password: "", confirmPassword: "" },
     validations: {
       email: {
@@ -76,6 +76,7 @@ export const Register: FunctionComponent = () => {
               error={errors?.email}
               name="email"
               onChange={handleInputChange}
+              onBlur={handleBlur}
             />
           </InputWrapper>
           <InputWrapper>
@@ -85,6 +86,7 @@ export const Register: FunctionComponent = () => {
               error={errors?.password}
               name="password"
               onChange={handleInputChange}
+              onBlur={handleBlur}
             />
           </InputWrapper>
           <InputWrapper>
@@ -94,6 +96,7 @@ export const Register: FunctionComponent = () => {
               error={errors?.confirmPassword || passwordsMatchError}
               name="confirmPassword"
               onChange={handleInputChange}
+              onBlur={handleBlur}
             />
           </InputWrapper>
           {!!mutation.error && <Error>{JSON.stringify(mutation.error)}</Error>}
