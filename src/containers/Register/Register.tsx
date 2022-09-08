@@ -71,6 +71,7 @@ export const Register: FunctionComponent = () => {
         <form onSubmit={(e) => handleSubmit(e, onSubmit)}>
           <InputWrapper>
             <Input
+              type="text"
               placeholder="Email"
               value={fields.email}
               error={errors?.email}
@@ -81,6 +82,7 @@ export const Register: FunctionComponent = () => {
           </InputWrapper>
           <InputWrapper>
             <Input
+              type="password"
               placeholder="Contraseña"
               value={fields.password}
               error={errors?.password}
@@ -91,6 +93,7 @@ export const Register: FunctionComponent = () => {
           </InputWrapper>
           <InputWrapper>
             <Input
+              type="password"
               placeholder="Confirmar contraseña"
               value={fields.confirmPassword}
               error={errors?.confirmPassword || passwordsMatchError}

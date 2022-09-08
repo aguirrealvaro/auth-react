@@ -51,7 +51,7 @@ export const Login: FunctionComponent = () => {
     <PageContainer>
       <Wrapper>
         <Title>Login</Title>
-        <form onSubmit={(e) => handleSubmit(e, onSubmit)}>
+        <form noValidate onSubmit={(e) => handleSubmit(e, onSubmit)}>
           <InputWrapper>
             <Input
               placeholder="Email"
@@ -64,6 +64,7 @@ export const Login: FunctionComponent = () => {
           </InputWrapper>
           <InputWrapper>
             <Input
+              type="password"
               placeholder="Contraseña"
               value={fields.password}
               error={errors?.password}
