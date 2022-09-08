@@ -74,7 +74,7 @@ export const Login: FunctionComponent = () => {
           </InputWrapper>
           {!!mutation.error && <Error>{JSON.stringify(mutation.error)}</Error>}
           <ButtonWrapper>
-            <Button block type="submit" isLoading={false}>
+            <Button block type="submit" isLoading={mutation.isLoading}>
               Iniciar sesion
             </Button>
           </ButtonWrapper>
