@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import { Router, Layout } from "./components";
+import { Router } from "./components";
 import { SessionProvider } from "./contexts";
 import { theme, GlobalStyles } from "@/components/App";
 
@@ -24,9 +24,7 @@ const App: FunctionComponent = () => {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <SessionProvider>
-            <Layout>
-              <Router />
-            </Layout>
+            <Router />
             <ReactQueryDevtools />
           </SessionProvider>
           <GlobalStyles />

@@ -1,16 +1,15 @@
-import { FunctionComponent, ReactNode } from "react";
+import { FunctionComponent } from "react";
+import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { Navbar } from "../Navbar";
 
-type LayoutProps = {
-  children: ReactNode;
-};
-
-export const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
+export const Layout: FunctionComponent = () => {
   return (
     <Container>
       <Navbar />
-      <Main>{children}</Main>
+      <Main>
+        <Outlet />
+      </Main>
     </Container>
   );
 };
