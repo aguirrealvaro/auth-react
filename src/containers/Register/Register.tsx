@@ -101,6 +101,7 @@ export const Register: FunctionComponent = () => {
               onChange={handleInputChange}
               onBlur={handleBlur}
               isLoading={emailAvailabilityQuery.isLoading}
+              success={emailAvailabilityQuery.data?.available}
             />
           </InputWrapper>
           <InputWrapper>
