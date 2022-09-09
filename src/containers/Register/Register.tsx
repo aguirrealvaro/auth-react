@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -6,7 +6,7 @@ import { getEmailAvailability, registerUser } from "@/client";
 import { Button, Input } from "@/components";
 import { PageContainer, Wrapper } from "@/components/App";
 import { EMAIL_REG_EXP } from "@/constants";
-import { useForm } from "@/hooks";
+import { useDebounce, useForm } from "@/hooks";
 
 type Fields = {
   email: string;
@@ -57,15 +57,15 @@ export const Register: FunctionComponent = () => {
     { enabled: false }
   );
 
-  const handleEmailBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
-    handleBlur(e);
+  const getEmailAvailabilityDebounce = useDebounce(emailAvailabilityQuery.refetch, 600);
 
-    const isValidEmail = RegExp(EMAIL_REG_EXP).test(e.currentTarget.value);
+  useEffect(() => {
+    const isValidEmail = RegExp(EMAIL_REG_EXP).test(fields.email);
 
     if (isValidEmail) {
-      emailAvailabilityQuery.refetch();
+      getEmailAvailabilityDebounce();
     }
-  };
+  }, [fields.email, getEmailAvailabilityDebounce]);
 
   const passwordsMatchError = (() => {
     const { password, confirmPassword } = fields;
@@ -99,7 +99,7 @@ export const Register: FunctionComponent = () => {
               error={errors?.email || unavailableEmailError}
               name="email"
               onChange={handleInputChange}
-              onBlur={handleEmailBlur}
+              onBlur={handleBlur}
               isLoading={emailAvailabilityQuery.isLoading}
             />
           </InputWrapper>
