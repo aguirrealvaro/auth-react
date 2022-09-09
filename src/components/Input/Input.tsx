@@ -174,7 +174,7 @@ const CustomInput = styled.input<{
             return theme.colors.green;
           }
 
-          return theme.colors.blue;
+          return theme.colors.grey;
         }};
       }
     }
