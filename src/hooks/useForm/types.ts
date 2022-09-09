@@ -14,3 +14,5 @@ export type ValidationType = {
     message: string;
   };
 };
+
+export type BlurredFieldsType<T> = Record<keyof T, boolean>;

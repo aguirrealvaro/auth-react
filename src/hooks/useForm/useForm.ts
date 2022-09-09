@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState, FocusEvent, FormEvent } from "react";
-import { ErrorsType, ValidationType } from "./types";
+import { ErrorsType, BlurredFieldsType, ValidationType } from "./types";
 
 type UseFormParams<T> = {
   intialValues: T;
@@ -21,6 +21,14 @@ export const useForm = <T extends Record<keyof T, string>>({
 }: UseFormParams<T>): UseFormReturnType<T> => {
   const [fields, setFields] = useState<T>(intialValues);
   const [errors, setErrors] = useState<ErrorsType<T> | undefined>(undefined);
+
+  const [blurredFields, setBlurredFields] = useState<BlurredFieldsType<T>>(() => {
+    const intialTouchFields = {} as BlurredFieldsType<T>;
+    Object.keys(intialValues).forEach((key) => {
+      intialTouchFields[key as keyof T] = false;
+    });
+    return intialTouchFields;
+  });
 
   const parseValidations = (
     name: keyof T,
@@ -58,12 +66,9 @@ export const useForm = <T extends Record<keyof T, string>>({
 
     setFields({ ...fields, [name]: value });
 
-    const errorExists = errors ? !!errors[name] : false;
+    const isBlurred = !!blurredFields[name];
 
-    // in order to validate the input after blur, only setErrors if there is alredy an error
-    // a better approach would be create an object blurredFields (or touchedFields)
-    // this would fix the non-checking errors with the backspace
-    if (errorExists) {
+    if (isBlurred) {
       setErrors((errors) => ({
         ...errors,
         [name]: valid ? undefined : newErrors[name],
@@ -75,6 +80,13 @@ export const useForm = <T extends Record<keyof T, string>>({
     const name = e.currentTarget.name as keyof T;
     const value = fields[name];
     const currentValidation = validations && validations[name];
+
+    setBlurredFields((blurredFields) => {
+      return {
+        ...blurredFields,
+        [name]: true,
+      };
+    });
 
     const newErrors = parseValidations(name, value, currentValidation);
 
