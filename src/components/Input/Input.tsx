@@ -1,5 +1,6 @@
 import { FunctionComponent, ChangeEvent, InputHTMLAttributes, ReactNode, useRef } from "react";
 import { CheckCircleFill } from "@styled-icons/bootstrap/CheckCircleFill";
+import { Alert } from "@styled-icons/remix-fill/Alert";
 import styled, { css } from "styled-components";
 import { Spinner, Icon } from "..";
 import { theme } from "../App";
@@ -63,6 +64,7 @@ export const Input: FunctionComponent<InputProps & InputHTMLAttributes<HTMLInput
         </InnerContainer>
         <RightContainer>
           {isLoading && <Spinner size="mini" />}
+          {error && <Icon icon={Alert} size="18px" color={theme.colors.red} />}
           {isSuccess && <Icon icon={CheckCircleFill} size="18px" color={theme.colors.green} />}
         </RightContainer>
       </InputContainer>
