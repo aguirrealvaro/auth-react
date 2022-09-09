@@ -61,6 +61,8 @@ export const useForm = <T extends Record<keyof T, string>>({
     const errorExists = errors ? !!errors[name] : false;
 
     // in order to validate the input after blur, only setErrors if there is alredy an error
+    // a better approach would be create an object blurredFields (or touchedFields)
+    // this would fix the non-checking errors with the backspace
     if (errorExists) {
       setErrors((errors) => ({
         ...errors,
