@@ -1,4 +1,12 @@
-import { FunctionComponent, ChangeEvent, InputHTMLAttributes, ReactNode, useRef } from "react";
+import {
+  FunctionComponent,
+  ChangeEvent,
+  InputHTMLAttributes,
+  ReactNode,
+  useRef,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { CheckCircleFill } from "@styled-icons/bootstrap/CheckCircleFill";
 import { Alert } from "@styled-icons/remix-fill/Alert";
 import styled, { css } from "styled-components";
@@ -42,6 +50,18 @@ export const Input: FunctionComponent<InputProps & InputHTMLAttributes<HTMLInput
     ...restProps,
   };
 
+  const showSideContainer = isLoading || !!error || isSuccess || false;
+
+  const sideContainerRef = useRef<HTMLDivElement>(null);
+
+  const [sideContainerWidth, setSideContainerWidth] = useState<number | undefined>(undefined);
+
+  useLayoutEffect(() => {
+    if (!showSideContainer) return;
+
+    setSideContainerWidth(sideContainerRef.current?.offsetWidth);
+  }, [showSideContainer]);
+
   return (
     <div className={className}>
       <InputContainer
@@ -58,15 +78,20 @@ export const Input: FunctionComponent<InputProps & InputHTMLAttributes<HTMLInput
             error={!!error}
             isSuccess={isSuccess || false}
             disabled={disabled}
+            sideWidth={sideContainerWidth}
             {...inputProps}
           />
           <Label htmlFor={inputId}>{placeholder}</Label>
         </InnerContainer>
-        <RightContainer>
-          {isLoading && <Spinner size="mini" />}
-          {error && <Icon icon={Alert} size="18px" color={theme.colors.red} />}
-          {isSuccess && <Icon icon={CheckCircleFill} size="18px" color={theme.colors.green} />}
-        </RightContainer>
+        {showSideContainer && (
+          <SideContainer ref={sideContainerRef}>
+            {isLoading && <Spinner size="mini" />}
+            {error && <Icon icon={Alert} size="18px" color={theme.colors.red} />}
+            {isSuccess && (
+              <Icon icon={CheckCircleFill} size="18px" color={theme.colors.green} />
+            )}
+          </SideContainer>
+        )}
       </InputContainer>
       {(helpText || error) && <BottomText error={!!error}>{error || helpText}</BottomText>}
     </div>
@@ -139,15 +164,21 @@ const CustomInput = styled.input<{
   error: boolean;
   hasPlaceholder: boolean;
   isSuccess: boolean;
+  sideWidth: number | undefined;
 }>`
   font-size: 16px;
   outline: none;
   border: none;
   background-color: transparent;
-  padding: 0;
   position: absolute;
-  left: 1rem;
-  right: 1rem;
+  width: ${({ sideWidth }) => {
+    if (sideWidth) {
+      return `calc(100% - ${sideWidth}px - 20px)`;
+    } else {
+      return "100%";
+    }
+  }};
+  padding: 0 1rem;
   height: ${({ hasPlaceholder }) => (hasPlaceholder ? "72%" : "100%")};
   bottom: 0;
   &:focus + label {
@@ -193,8 +224,8 @@ const BottomText = styled.div<{ error: boolean }>`
   color: ${({ error, theme }) => theme.colors[error ? "red" : "grey"]};
 `;
 
-const RightContainer = styled.div`
-  margin: 0 1.5rem;
+const SideContainer = styled.div`
+  margin-right: 1.5rem;
   display: flex;
   align-items: center;
   gap: 1rem;

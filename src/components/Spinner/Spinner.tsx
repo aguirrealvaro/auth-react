@@ -34,9 +34,9 @@ const Container = styled.div<{ fullHeight?: boolean }>`
 `;
 
 const sizes: Record<SizeType, number> = {
-  mini: 20,
-  default: 30,
-  large: 40,
+  mini: 18,
+  default: 25,
+  large: 35,
 };
 
 const Loader = styled.div<SpinnerProps>`
