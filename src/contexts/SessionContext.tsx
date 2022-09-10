@@ -59,6 +59,10 @@ export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ child
     );
   }
 
+  if (currentUserQuery.isError) {
+    localStorage.removeItem(AUTH_TOKEN);
+  }
+
   return (
     <SessionContext.Provider
       value={{
