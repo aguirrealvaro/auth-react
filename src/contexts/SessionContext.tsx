@@ -54,7 +54,7 @@ export const SessionProvider: FunctionComponent<SessionProviderProps> = ({ child
   if (currentUserQuery.isLoading) {
     return (
       <SpinnerWrapper>
-        <Spinner />
+        <Spinner size="large" />
       </SpinnerWrapper>
     );
   }
