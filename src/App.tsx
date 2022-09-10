@@ -11,9 +11,13 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      refetchOnMount: false,
       refetchOnReconnect: true,
       retry: false,
+      // stale: if i query on another instance, it will refetch
+      // fresh: if i query on another instance, it will take data from cache
+      // by default, queries are stale (staleTime: 0)
+      // staleTime: 99999, // i can decide how long the query will be "fresh", then it pass to "stale"
+      // refetchOnMount: false, // if set to false, it will take data from cache (if queryKey exists)
     },
   },
 });
