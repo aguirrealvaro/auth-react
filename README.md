@@ -1,5 +1,3 @@
-# React Vite Template
+# auth-react
 
-Template of a react production-ready application with Vite, Typescript, Prettier, ESlint, and Pre-commit
-
-It also includes the possibility of managing variables for different environments (development and production)
+Client to consume api provided by `auth-nest` repo, with react-query
